@@ -4,21 +4,20 @@ import com.guardado.threads.AnimalThread;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Gui extends JFrame {
 
     private JPanel [] paneles;
     private JLabel [] labels;
-    private String[] nombres = {"canguro","colibri","dragon"};
+    private JButton inicio;
+    private String[] nombres = {"canguro","tortuga","dragon"};
 
     public Gui(){
+        super("Carrera de animales");
         initialComponents();
-       AnimalThread conejo = new AnimalThread("canguro",labels[0].getX(),labels[0].getY(),510,labels[0]);
-        AnimalThread tortuga = new AnimalThread("colibri",labels[1].getX(),labels[1].getY(),510,labels[1]);
-        AnimalThread zorro = new AnimalThread("dragon",labels[2].getX(),labels[2].getY(),510,labels[2]);
-        conejo.start();
-        tortuga.start();
-        zorro.start();
+
     }
 
     public void initialComponents() {
@@ -26,7 +25,7 @@ public class Gui extends JFrame {
         setLayout(null);
         paneles = new JPanel[3];
         labels = new JLabel[3];
-
+        inicio = new JButton("Inicio");
         Container container = getContentPane();
         //llenando el panel
         for (int i=0 ; i < 3 ; i++)
@@ -38,7 +37,19 @@ public class Gui extends JFrame {
             labels[i].setBounds(10,(i*220)+10,200,200);
             container.add(labels[i]);
         }
-        //System.out.println(getClass().getResource(nombres[2]+".gif"));
+        inicio.setBounds(10,0,100,30);
+        container.add(inicio);
+        inicio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnimalThread canguro = new AnimalThread("canguro",labels[0].getX(),labels[0].getY(),510,labels[0]);
+                AnimalThread tortuga = new AnimalThread("colibri",labels[1].getX(),labels[1].getY(),510,labels[1]);
+                AnimalThread dragon = new AnimalThread("dragon",labels[2].getX(),labels[2].getY(),510,labels[2]);
+                canguro.start();
+                tortuga.start();
+                dragon.start();
+            }
+        });
         setSize(700,650);
     }
 
